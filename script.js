@@ -42,3 +42,22 @@ function roundPlay(playerSelection, computerSelection) {
         console.log(`You have to pick between rock, paper and scissors!`);
     }
 }
+
+// Game function is created
+function game() {
+    for (let i = 1; i <= 5; i++) {
+        roundPlay();
+
+        console.log(`Round: ` + i);
+        console.log(`Player score: ` + playerScore);
+        console.log(`Computer score: ` + computerScore);
+    }
+    if (playerScore > computerScore) {
+        console.log(`Player wins!`);
+    } else if (computerScore > playerScore) {
+        console.log(`Computer wins!`);
+    } else {
+        console.log(`It's a tie!`);
+    }
+}
+game();
