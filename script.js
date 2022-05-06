@@ -1,63 +1,71 @@
-// Re-done code from scratch because of errors
-let choice = ['rock', 'paper', 'scissors'];
+// NEW CODE
+const optionBtn = document.querySelectorAll('div.optionBtn button');
+const roundResults = document.querySelector('#roundResults');
+const playerPoints = document.querySelector('#playerScore');
+const computerPoints = document.querySelector('#computerScore');
+const resetBtn = document.querySelector('#reset');
 
+// restarting for new game
+resetBtn.addEventListener('click', () => location.reload());
+
+optionBtn.forEach(button => { button.addEventListener('click', getPlayerChoice) });
+
+let computerChoice = [{ choice: 'Rock', value: 0 }, { choice: 'Paper', value: 1 }, { choice: 'Scissors', value: 2 }]
 let playerScore = 0;
 let computerScore = 0;
+let playerChoice;
 
-// A player choice function is created
-function playerChoice() {
-    let playerChoice = prompt(`Choose from Rock, Paper and Scissors!`);
-    return playerChoice;
-}
-
-// A computer choice function is created
 function computerPlay() {
-    return choice[Math.floor(Math.random() * choice.length)];
+    let result = computerChoice[Math.floor(Math.random() * computerChoice.length)];
+    return result;
 }
 
-// A round play function is created
-function roundPlay(playerSelection, computerSelection) {
-    playerSelection = playerChoice();
-    computerSelection = computerPlay();
+function playRound(playerSelection, computerSelection) {
+    let roundWinCombo = `${playerSelection}-${computerSelection.value}`;
+    let playerWinCombo = ['1-0', '0-2', '2-1'];
 
-    if (playerSelection === computerSelection) {
-        console.log(`You selected: ${playerSelection}.` + ` The computer selected: ${computerSelection}.` + ` Tie!`);
-        return;
-
-    } else if (playerSelection === `rock` && computerSelection === `scissors` ||
-        playerSelection === `paper` && computerSelection === `rock` ||
-        playerSelection === `scissors` && computerSelection === `paper`) {
-        console.log(`You selected: ${playerSelection}.` + ` The computer selected: ${computerSelection}.` + ` Score goes to player!`);
-        playerScore += 1;
-        return;
-
-    } else if (playerSelection === `scissors` && computerSelection === `rock` ||
-        playerSelection === `rock` && computerSelection === `paper` ||
-        playerSelection === `paper` && computerSelection === `scissors`) {
-        console.log(`You selected: ${playerSelection}.` + ` The computer selected: ${computerSelection}.` + ` Score goes to computer!`);
-        computerScore += 1;
-        return;
-
+    if (Number(playerSelection) === computerSelection.value) {
+        playerPoints.textContent = ++playerScore
+        computerPoints.textContent = ++computerScore
+        roundResults.textContent = "Tie!"
+    } else if (playerWinCombo.includes(roundWinCombo)) {
+        playerPoints.textContent = ++playerScore
+        roundResults.textContent = `You win! ${playerChoice} beats ${computerSelection.choice}!`;
     } else {
-        console.log(`You have to pick between rock, paper and scissors!`);
+        computerPoints.textContent = ++computerScore
+        roundResults.textContent = `You lose! ${computerSelection.choice} beats ${playerChoice}!`;
+    }
+    checkWinner();
+}
+
+function checkWinner() {
+    if (computerScore === 5 || playerScore === 5) {
+        if (computerScore === playerScore) {
+            updateWinner('Tie')
+        } else {
+            let win = `${(computerScore > playerScore) ? 'computer' : 'player'}`;
+            updateWinner(win);
+        }
     }
 }
 
-// Game function is created
-function game() {
-    for (let i = 1; i <= 5; i++) {
-        roundPlay();
-
-        console.log(`Round: ` + i);
-        console.log(`Player score: ` + playerScore);
-        console.log(`Computer score: ` + computerScore);
-    }
-    if (playerScore > computerScore) {
-        console.log(`Player wins!`);
-    } else if (computerScore > playerScore) {
-        console.log(`Computer wins!`);
-    } else {
-        console.log(`It's a tie!`);
-    }
+const winnerResults = {
+    computer: [`You lost the game!`, 'red'],
+    player: [`You won the game!`, 'rgb(129, 110, 233)'],
+    tie: [`It's a tie!`]
 }
-game();
+
+function updateWinner(winner) {
+    roundResults.textContent = winnerResults[winner][0];
+    roundResults.style.color = winnerResults[winner][1];
+
+    optionBtn.forEach(button => {
+        button.removeEventListener('click', getPlayerChoice);
+    });
+}
+
+function getPlayerChoice(e) {
+    let playerSelection = (e.target.id);
+    playerChoice = e.target.textContent;
+    playRound(playerSelection, computerPlay());
+}

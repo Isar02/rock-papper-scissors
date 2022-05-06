@@ -2,14 +2,58 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js " defer></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock Paper Scissors!</title>
 </head>
 
 <body>
-    <script src="script.js"></script>
+
+    <div class="header">
+        <h1>ROCK PAPER SCISSORS</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="mainText">
+            <div class="weapon">
+                <h4>Choose your weapon!</h4>
+            </div>
+        </div>
+
+        <div class="optionBtn">
+            <button id="0">✊</button>
+            <button id="1">🖐️</button>
+            <button id="2">✌️</button>
+        </div>
+
+        <div class="displayScore">
+            <span id="playerDisplay">Player score</span>
+            <span id="computerDisplay">Computer score</span>
+        </div>
+
+        <div class="scores">
+            <div id="playerScore"></div>
+            <div id="computerScore"></div>
+        </div>
+
+        <div><span id="resultsDisplay">Results</span></div>
+
+        <div id="roundResults"></div>
+
+        <div>
+            <button id="reset">Play again!</button>
+        </div>
+
+        <footer class="footer">
+            <p>Copyright © The Odin Project / Isar 2022</p>
+        </footer>
+
+    </div>
+
 </body>
 
 </html>
